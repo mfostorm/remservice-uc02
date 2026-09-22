@@ -1,0 +1,35 @@
+# ── Visual Studio / C++ ──
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bin/
+obj/
+ipch/
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.exe
+*.dll
+*.log
+*.tlog
+*.lastbuildstate
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.opendb
+
+# ── Офисные временные файлы ──
+~$*.docx
+~$*.xlsx
+~$*.pptx
+*.tmp
+
+# ── Прочее ──
+Thumbs.db
+desktop.ini
+.DS_Store
