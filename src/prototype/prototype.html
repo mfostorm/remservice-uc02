@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Прототип интерфейса РемСервис</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --panel:#ffffff; --border:#d7dce3; --accent:#2e6da4;
+    --text:#1f2733; --muted:#5a6472;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text)}
+  header{background:var(--accent);color:#fff;padding:18px 28px}
+  header h1{margin:0;font-size:20px;font-weight:700}
+  header p{margin:4px 0 0;font-size:13px;opacity:.85}
+  .wrap{display:flex;gap:20px;padding:20px 28px;align-items:flex-start}
+  nav{flex:0 0 280px;background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  nav h2{margin:0;padding:12px 16px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+         color:var(--muted);background:#eef2f7;border-bottom:1px solid var(--border)}
+  nav button{display:block;width:100%;text-align:left;padding:11px 16px;border:0;background:none;
+             font:inherit;font-size:14px;cursor:pointer;border-bottom:1px solid #eef1f5;color:var(--text)}
+  nav button:hover{background:#f2f6fb}
+  nav button.active{background:#e3edf8;color:var(--accent);font-weight:600;
+                    box-shadow:inset 3px 0 0 var(--accent)}
+  main{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:18px}
+  main h3{margin:0 0 4px;font-size:17px}
+  main .desc{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.5}
+  main img{width:100%;border:1px solid var(--border);border-radius:6px;display:block}
+  footer{padding:12px 28px 28px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Прототип пользовательского интерфейса ИС «РемСервис»</h1>
+  <p>Учебная практика УП.02, вариант 20 — автоматизация работы сервисного центра по ремонту техники</p>
+</header>
+
+<div class="wrap">
+  <nav>
+    <h2>Экранные формы</h2>
+    <div id="menu"></div>
+  </nav>
+  <main>
+    <h3 id="title"></h3>
+    <p class="desc" id="desc"></p>
+    <img id="shot" alt="">
+  </main>
+</div>
+
+<footer>Прототип носит демонстрационный характер: переходы между экранами выполняются
+через меню слева.</footer>
+
+<script>
+const SCREENS = [
+  { id:"login", file:"25_ui_login.png", name:"Форма авторизации",
+    desc:"Вход в систему с выбором роли. Проверяются заполненность полей и соответствие учётных данных таблице Employees." },
+  { id:"main", file:"26_ui_main.png", name:"Главная форма (рабочее место)",
+    desc:"Панель ключевых показателей и реестр заказ-нарядов с цветовой индикацией статусов. Состав доступных кнопок зависит от роли." },
+  { id:"order", file:"27_ui_order.png", name:"Приём техники и заказ-наряд",
+    desc:"Регистрация клиента и изделия, фиксация неисправности, комплектности и внешних дефектов, назначение планового срока." },
+  { id:"diag", file:"28_ui_diag.png", name:"Диагностика и калькуляция",
+    desc:"Результаты диагностики, перечень работ и запчастей, автоматический расчёт итоговой стоимости с учётом скидки клиента." },
+  { id:"wh", file:"29_ui_warehouse.png", name:"Склад запасных частей",
+    desc:"Форма администратора для работы с БД: операции INSERT, UPDATE, DELETE над таблицей Parts, контроль неснижаемого остатка." },
+  { id:"admin", file:"30_ui_admin.png", name:"Администрирование",
+    desc:"Управление пользователями, ролями и правами доступа, журнал действий (аудит)." },
+  { id:"report", file:"31_ui_report.png", name:"Отчёты и аналитика",
+    desc:"Рабочее место руководителя: показатели за период, диаграмма по видам техники, загрузка мастеров, выводы системы." }
+];
+
+const menu = document.getElementById("menu");
+const title = document.getElementById("title");
+const desc = document.getElementById("desc");
+const shot = document.getElementById("shot");
+
+function show(i){
+  const s = SCREENS[i];
+  title.textContent = s.name;
+  desc.textContent = s.desc;
+  shot.src = s.file;
+  shot.alt = s.name;
+  [...menu.children].forEach((b, k) => b.classList.toggle("active", k === i));
+  location.hash = s.id;
+}
+
+SCREENS.forEach((s, i) => {
+  const b = document.createElement("button");
+  b.textContent = (i + 1) + ". " + s.name;
+  b.onclick = () => show(i);
+  menu.appendChild(b);
+});
+
+const start = Math.max(0, SCREENS.findIndex(s => "#" + s.id === location.hash));
+show(start);
+</script>
+</body>
+</html>
